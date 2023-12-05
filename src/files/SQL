@@ -1,0 +1,58 @@
+CREATE DATABASE store_db;
+
+CREATE TABLE tb_category (
+    id serial primary key,
+    name varchar
+);
+
+CREATE TABLE tb_product (
+    id serial primary key,
+    name varchar,
+    category_id int references tb_category(id)
+);
+
+CREATE TABLE tb_product_details (
+    id serial primary key,
+    product_id int references tb_product(id),
+    brand varchar,
+    price float,
+    description text,
+    quantity int
+);
+
+
+-----Category------
+
+INSERT INTO tb_category(name) VALUES (?);
+
+UPDATE tb_category SET name = ?;
+
+SELECT * FROM tb_category WHERE id = ?;
+
+
+-----ProductDetails--------
+
+SELECT * FROM tb_product_details WHERE id = ?;
+
+UPDATE tb_product_details SET product_id = ?, brand = ?, price = ?, description = ?, quantity = ?;
+
+INSERT INTO tb_product_details (product_id, brand, price, description, quantity) VALUES (?, ?, ?, ?, ?);
+
+
+-----Product------------
+
+INSERT INTO tb_product (name, category_id) VALUES (?, ?);
+
+UPDATE tb_product SET name = ?, category_id = ?;
+
+SELECT * FROM tb_product WHERE id = ?;
+
+SELECT p.id, p.name, p.category_id FROM tb_product p JOIN tb_category c on c.id = p.category_id JOIN tb_product_details d on p.id = d.product_id WHERE c.name = ? ORDER BY d.price;
+
+SELECT p.id, p.name, p.category_id FROM tb_product p JOIN tb_product_details d on p.id = d.product_id JOIN tb_category c on c.id = p.category_id WHERE c.name = ? AND d.brand = ?;
+
+SELECT DISTINCT d.brand FROM tb_product_details d JOIN tb_product p on p.id = d.product_id JOIN tb_category c on c.id = p.category_id WHERE c.name = ?;
+
+SELECT sum(d.quantity) as quantity FROM tb_product_details d JOIN tb_product p on p.id = d.product_id JOIN tb_category c on c.id = p.category_id WHERE c.name = ?;
+
+
