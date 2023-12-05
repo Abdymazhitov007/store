@@ -12,7 +12,7 @@ public class Main {
         ProductDetailsService productDetailsService = new ProductDetailsServiceImpl();
 
         System.out.println(productService.getQuantityByCategory("Personal Computer"));
-
+        System.out.println("hello world");
 
     }
 }
